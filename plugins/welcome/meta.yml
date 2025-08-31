@@ -1,0 +1,11 @@
+name: welcome
+type: command
+exec: welcome.py
+desc: Display a welcome message with ASCII art.
+flags:
+  - name: lang
+    desc: Set display language:"en" for English, "cn" for Chinese
+    default: cn
+  - name: name
+    desc: Specify the username to display in the welcome message
+    default: User

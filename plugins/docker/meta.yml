@@ -1,0 +1,46 @@
+name: docker
+type: soft
+exec: docker.sh
+exec_type: shell
+description: Docker 和 Containerd 安装管理工具，此工具适配ubuntu/debian
+commands:
+  - name: install
+    desc: 安装 Docker 和 Containerd
+    flags:
+      - name: work-dir
+        desc: 插件的工作目录
+        default: /tmp/docker-install
+      - name: github-mirror
+        desc: GitHub代理地址，以 / 结尾
+        default: "https://gh-proxy.com/"
+      - name: apt-mirror
+        desc: ubuntu/debian国内镜像源
+        default: "http://mirrors.aliyun.com/ubuntu/"
+      - name: containerd-version
+        desc: containerd 版本号
+        default: "2.1.4"
+      - name: rootlesskit-version
+        desc: rootlesskit 版本号
+        default: "2.3.5"
+      - name: nerdctl-version
+        desc: nerdctl 版本号
+        default: "2.1.3"
+      - name: cni-version
+        desc: CNI 版本号
+        default: "1.7.1"
+      - name: docker-version
+        desc: Docker 版本号
+        default: "28.3.3"
+      - name: docker-compose-version
+        desc: Docker Compose 版本号
+        default: "v2.39.2"
+      - name: docker-buildx-version
+        desc: Docker Buildx 版本号
+        default: "v0.27.0"
+      - name: docker-registry-mirrors
+        desc: Docker 镜像加速器配置
+        default: "https://docker.1ms.run,https://docker.m.daocloud.io"
+  - name: uninstall
+    desc: 卸载 Docker 和 Containerd
+  - name: help
+    desc: 显示帮助信息

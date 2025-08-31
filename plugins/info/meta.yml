@@ -1,0 +1,9 @@
+name: info
+type: command
+exec: info.sh
+exec_type: shell
+desc: Display the tool version and basic information. 
+flags:
+  - name: verbose
+    desc: Show detailed information
+    default: false
