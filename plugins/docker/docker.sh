@@ -6,10 +6,12 @@ CONTAINERD_VERSION="2.1.4"
 ROOTLESSKIT_VERSION="2.3.5"
 NERDCTL_VERSION="2.1.3"
 CNI_VERSION="1.7.1"
+CONTAINERD_DATA_ROOT="/data/virt-home/virt/containerd"
 
 DOCKER_VERSION="28.3.3"
 DOCKER_COMPOSE_VERSION="v2.39.2"
 DOCKER_BUILDX_VERSION="v0.27.0"
+DOCKER_DATA_ROOT="/data/virt-home/virt/docker"
 
 # GitHub 镜像代理
 GITHUB_MIRROR="https://gh-proxy.net/"
@@ -73,9 +75,11 @@ parse_arguments() {
                     rootlesskit-version) ROOTLESSKIT_VERSION="$value" ;;
                     nerdctl-version) NERDCTL_VERSION="$value" ;;
                     cni-version) CNI_VERSION="$value" ;;
+                    containerd-data-root) CONTAINERD_DATA_ROOT="$value" ;;
                     docker-version) DOCKER_VERSION="$value" ;;
                     docker-compose-version) DOCKER_COMPOSE_VERSION="$value" ;;
                     docker-buildx-version) DOCKER_BUILDX_VERSION="$value" ;;
+                    docker-data-root) DOCKER_DATA_ROOT="$value" ;;
                     github-mirror) GITHUB_MIRROR="$value" ;;
                     apt-mirror) APT_MIRROR="$value" ;;
                     docker-registry-mirrors)
@@ -193,6 +197,8 @@ EOF
     sudo mkdir -p /etc/containerd
     containerd config default | sudo tee /etc/containerd/config.toml > /dev/null
     sudo sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
+    sudo sed -i "s|^root = .*|root = \"${CONTAINERD_DATA_ROOT}\"|" /etc/containerd/config.toml
+
     log_success "containerd 配置文件生成完成"
 
     # containerd 镜像加速
@@ -288,7 +294,8 @@ EOF
                 echo "    \"$mirror\""
             fi
         done
-        echo '  ]'
+        echo '  ],'
+        echo "  \"data-root\": \"${DOCKER_DATA_ROOT}\""
         echo '}'
     } | sudo tee /etc/docker/daemon.json >/dev/null
     log_success "Docker 配置文件生成完成"
@@ -384,9 +391,11 @@ show_help() {
   --rootlesskit-version=<version>      指定 rootlesskit 版本
   --nerdctl-version=<version>          指定 nerdctl 版本
   --cni-version=<version>              指定 CNI 版本
+  --containerd-data-root=<value>       指定 containerd 数据目录
   --docker-version=<version>           指定 Docker 版本
   --docker-compose-version=<version>   指定 Docker Compose 版本
   --docker-buildx-version=<version>    指定 Docker Buildx 版本
+  --docker-data-root=<value>           指定 Docker 数据目录
   --github-mirror=<url>                指定 GitHub 镜像代理
   --apt-mirror=<url>                   指定 APT 镜像源
   --docker-registry-mirrors=<json>     指定 Docker 镜像加速器

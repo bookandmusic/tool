@@ -28,6 +28,9 @@ commands:
       - name: cni-version
         desc: CNI 版本号
         default: "1.7.1"
+      - name: containerd-data-root
+        desc: containerd 数据目录
+        default: /var/lib/containerd
       - name: docker-version
         desc: Docker 版本号
         default: "28.3.3"
@@ -37,6 +40,9 @@ commands:
       - name: docker-buildx-version
         desc: Docker Buildx 版本号
         default: "v0.27.0"
+      - name: docker-data-root
+        desc: Docker 数据目录
+        default: /var/lib/docker
       - name: docker-registry-mirrors
         desc: Docker 镜像加速器配置
         default: "https://docker.1ms.run,https://docker.m.daocloud.io"
